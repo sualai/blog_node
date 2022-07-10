@@ -2,8 +2,8 @@ const mongooes = require('mongoose')
 const moment = require('moment')
 
 const ReplySchema = new mongooes.Schema({
-    nickname: {tyoe: String,required: true},
-    content: {type: String, require: true},
+    nickname: {type: String,required: true},
+    content: {type: String, required: true},
     createAt:{
         type: Date,
         required: true,
