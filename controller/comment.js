@@ -1,4 +1,5 @@
 const CommentModel = require('../models/CommentModel')
+const ReplyModel = require('../models/ReplyModel')
 const { commentValidator} = require('../validators/comment')
 const { Resolve } = require('../lib/helper')
 const res = new Resolve()
@@ -28,11 +29,12 @@ class CommentController {
     }
     static async getComment(ctx, next) {
         const _id = ctx.params._id
-        const comment = await CommentModel.findById({_id})
+        const comment = await CommentModel.findById({_id}).lean()
         if(!comment) {
             throw new global.errs.NotFound("找不到相关评论")
         }
-        ctx.body = res.json(comment)
+        const replayList = await ReplyModel.find({comment_id: _id})
+        ctx.body = res.json({...comment,replayList})
 
     }
     static async updateComment(ctx, next) {
